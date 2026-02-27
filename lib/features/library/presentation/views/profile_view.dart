@@ -33,13 +33,17 @@ class ProfileView extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
           // Stats Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildStatItem(context, '${progress.consecutiveDays}', 'Days Streak'),
-              _buildStatItem(context, '${progress.totalWordsRead}', 'Words Read'),
-              _buildStatItem(context, '${progress.booksCompleted}', 'Books Finished'),
-            ],
+          progress.when(
+            data: (data) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildStatItem(context, '${data.consecutiveDays}', 'Days Streak'),
+                _buildStatItem(context, '${data.totalWordsRead}', 'Words Read'),
+                _buildStatItem(context, '${data.booksCompleted}', 'Books Finished'),
+              ],
+            ),
+            loading: () => const CircularProgressIndicator(),
+            error: (error, stack) => Text('Failed to load stats: $error'),
           ),
           const SizedBox(height: 48),
           // Actions

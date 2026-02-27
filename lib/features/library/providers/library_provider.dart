@@ -1,58 +1,40 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../data/repositories/book_repository.dart';
+import '../data/repositories/user_repository.dart';
 import '../domain/models/book.dart';
 import '../domain/models/user_progress.dart';
 
-// --- Mock Data ---
+// --- Repositories ---
 
-final _mockBooks = [
-  const Book(
-    id: '1',
-    title: 'The Little Prince',
-    author: 'Antoine de Saint-Exupéry',
-    coverUrl: 'https://via.placeholder.com/150x220.png?text=Little+Prince',
-    difficultyLevel: 'A2',
-    totalChapters: 27,
-    description: 'A pilot stranded in the desert meets a young prince fallen to Earth from a tiny asteroid.',
-  ),
-  const Book(
-    id: '2',
-    title: 'Alice in Wonderland',
-    author: 'Lewis Carroll',
-    coverUrl: 'https://via.placeholder.com/150x220.png?text=Alice',
-    difficultyLevel: 'B1',
-    totalChapters: 12,
-    description: 'A young girl falls through a rabbit hole into a fantasy world.',
-  ),
-  const Book(
-    id: '3',
-    title: '1984',
-    author: 'George Orwell',
-    coverUrl: 'https://via.placeholder.com/150x220.png?text=1984',
-    difficultyLevel: 'B2',
-    totalChapters: 24,
-    description: 'A dystopian social science fiction novel and cautionary tale.',
-  ),
-];
-
-const _mockProgress = UserProgress(
-  consecutiveDays: 12,
-  totalWordsRead: 45200,
-  booksCompleted: 2,
-  currentBookChaptersRead: 4,
-);
-
-// --- Providers ---
-
-final libraryBooksProvider = Provider<List<Book>>((ref) {
-  return _mockBooks;
+final bookRepositoryProvider = Provider<BookRepository>((ref) {
+  return BookRepository(Supabase.instance.client);
 });
 
-final userProgressProvider = Provider<UserProgress>((ref) {
-  return _mockProgress;
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return UserRepository(Supabase.instance.client);
 });
 
-// Which book is currently being read (mocking it to the first one)
-final currentReadingBookProvider = Provider<Book?>((ref) {
-  final books = ref.watch(libraryBooksProvider);
+// --- Async Data Providers ---
+
+final libraryBooksProvider = FutureProvider<List<Book>>((ref) async {
+  final repository = ref.watch(bookRepositoryProvider);
+  return repository.getBooks();
+});
+
+final userProgressProvider = FutureProvider<UserProgress>((ref) async {
+  final authState = ref.watch(authStateChangesProvider).value;
+  final userId = authState?.session?.user.id;
+
+  if (userId == null) return const UserProgress();
+
+  final repository = ref.watch(userRepositoryProvider);
+  return repository.getUserProgress(userId);
+});
+
+// Which book is currently being read (still mocking the selection logic for now, but using real data)
+final currentReadingBookProvider = FutureProvider<Book?>((ref) async {
+  final books = await ref.watch(libraryBooksProvider.future);
   return books.isNotEmpty ? books.first : null;
 });
