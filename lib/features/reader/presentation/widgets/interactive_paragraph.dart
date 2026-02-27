@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../models/text_token.dart';
@@ -69,14 +70,14 @@ class _InteractiveParagraphState extends State<InteractiveParagraph> {
 
           return TextSpan(
             text: token.text,
-            style: TextStyle(
-              fontSize: 18,
-              height: 1.8, // Better reading experience
+            style: GoogleFonts.lora(
+              fontSize: 20, // Slightly larger for comfortable reading
+              height: 1.8, 
               color: isHighlight
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black87,
               backgroundColor: isHighlight
-                  ? Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3)
+                  ? Theme.of(context).colorScheme.primaryContainer
                   : Colors.transparent,
               fontWeight: token.isWord ? FontWeight.w400 : FontWeight.normal,
             ),
