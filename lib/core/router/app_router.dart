@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../features/reader/presentation/screens/reader_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +12,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
+        path: '/',
+        name: 'reader',
+        builder: (context, state) => const ReaderScreen(),
+      ),
         path: '/',
         name: 'home',
         builder: (context, state) => const Scaffold(
