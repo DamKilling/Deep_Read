@@ -1,33 +1,50 @@
+import 'package:flutter/material.dart';
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/auth/presentation/screens/auth_screen.dart';
 import '../../features/library/presentation/screens/library_screen.dart';
-
+import '../../features/reader/presentation/screens/reader_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/reader/presentation/screens/reader_screen.dart';
+class RouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+  RouterNotifier(this._ref) {
+    _ref.listen(authStateChangesProvider, (_, __) {
+      notifyListeners();
+    });
+  }
+}
+
+final routerNotifierProvider = Provider<RouterNotifier>((ref) {
+  return RouterNotifier(ref);
+});
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateChangesProvider);
-  
+  final notifier = ref.watch(routerNotifierProvider);
+
   return GoRouter(
+    refreshListenable: notifier,
     initialLocation: '/',
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      // If the auth stream is still loading, do nothing
-      if (authState.isLoading) return null;
+      final authState = ref.read(authStateChangesProvider);
+
+      if (authState.isLoading) {
+        return '/splash';
+      }
 
       final session = authState.value?.session;
       final isAuth = session != null;
       final isGoingToLogin = state.matchedLocation == '/auth';
+      final isSplash = state.matchedLocation == '/splash';
 
       // If user is not logged in and not heading to login -> redirect to login
       if (!isAuth && !isGoingToLogin) {
         return '/auth';
       }
-      
-      // If user is logged in and trying to access login -> redirect to home
-      if (isAuth && isGoingToLogin) {
+
+      // If user is logged in and trying to access login or splash -> redirect to home
+      if (isAuth && (isGoingToLogin || isSplash)) {
         return '/';
       }
 
@@ -48,6 +65,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/reader',
         name: 'reader',
         builder: (context, state) => const ReaderScreen(),
+      ),
+      GoRoute(
+        path: '/splash',
+        name: 'splash',
+        builder: (context, state) => const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
       ),
     ],
   );

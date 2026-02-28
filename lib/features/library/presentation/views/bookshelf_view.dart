@@ -87,7 +87,7 @@ class BookshelfView extends ConsumerWidget {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => const SizedBox.shrink(),
+            error: (error, stack) => Center(child: Text('Current Book Error: $error')),
           ),
           const SizedBox(height: 32),
           Text(
