@@ -12,6 +12,22 @@ class AudioTimestamp {
     required this.start,
     required this.end,
   });
+
+  factory AudioTimestamp.fromJson(Map<String, dynamic> json) {
+    return AudioTimestamp(
+      sentenceIndex: json['sentenceIndex'] as int,
+      start: Duration(milliseconds: ((json['start'] as num) * 1000).toInt()),
+      end: Duration(milliseconds: ((json['end'] as num) * 1000).toInt()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'sentenceIndex': sentenceIndex,
+      'start': start.inMilliseconds / 1000.0,
+      'end': end.inMilliseconds / 1000.0,
+    };
+  }
 }
 
 class AudioSyncController {

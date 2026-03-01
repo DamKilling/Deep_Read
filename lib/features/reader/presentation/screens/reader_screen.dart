@@ -28,24 +28,22 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   @override
   void initState() {
     super.initState();
-    // Mock audio controller setup, same as before but without hardcoded text
-    _audioController = AudioSyncController(
-      timestamps: [
-        AudioTimestamp(sentenceIndex: 0, start: const Duration(seconds: 0), end: const Duration(seconds: 6)),
-        AudioTimestamp(sentenceIndex: 1, start: const Duration(seconds: 6), end: const Duration(seconds: 14)),
-        AudioTimestamp(sentenceIndex: 2, start: const Duration(seconds: 14), end: const Duration(seconds: 19)),
-        AudioTimestamp(sentenceIndex: 3, start: const Duration(seconds: 19), end: const Duration(seconds: 22)),
-      ],
-    );
-    _audioController.init('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
   }
 
-  void _initAudioAndParse(String content) {
+  void _initAudioAndParse(String content, String? audioUrl, List<AudioTimestamp>? audioTimestamps) {
     final paragraphs = content.split('\n').where((p) => p.trim().isNotEmpty).toList();
     _parsedParagraphs = List.generate(
       paragraphs.length,
       (index) => TextParser.parseParagraph(paragraphs[index], index),
     );
+
+    if (audioTimestamps != null && audioTimestamps.isNotEmpty && audioUrl != null && audioUrl.isNotEmpty) {
+      _audioController = AudioSyncController(timestamps: audioTimestamps);
+      _audioController.init(audioUrl);
+    } else {
+      // Fallback empty controller if no audio is available
+      _audioController = AudioSyncController(timestamps: []);
+    }
   }
 
   @override
@@ -214,7 +212,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             
             // Init logic only once when data arrives
             if (!_isInitialized) {
-              _initAudioAndParse(chapter.content);
+              _initAudioAndParse(chapter.content, chapter.audioUrl, chapter.audioTimestamps);
               _isInitialized = true;
             }
 

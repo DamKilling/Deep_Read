@@ -1,3 +1,4 @@
+import '../../controllers/audio_sync_controller.dart';
 class Chapter {
   final String id;
   final String bookId;
@@ -5,6 +6,7 @@ class Chapter {
   final String title;
   final String content;
   final String? audioUrl;
+  final List<AudioTimestamp>? audioTimestamps;
   final int wordCount;
 
   const Chapter({
@@ -14,6 +16,7 @@ class Chapter {
     required this.title,
     required this.content,
     this.audioUrl,
+    this.audioTimestamps,
     this.wordCount = 0,
   });
 
@@ -25,6 +28,9 @@ class Chapter {
       title: json['title'] as String,
       content: json['content'] as String,
       audioUrl: json['audio_url'] as String?,
+      audioTimestamps: (json['audio_timestamps'] as List<dynamic>?)
+          ?.map((e) => AudioTimestamp.fromJson(e as Map<String, dynamic>))
+          .toList(),
       wordCount: json['word_count'] as int? ?? 0,
     );
   }
