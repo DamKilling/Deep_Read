@@ -64,3 +64,44 @@ Local persistence implemented with `shared_preferences`. Tapping tokens queries 
 1. Add `.txt` files to the root directory
 2. Update the Python script `clean_and_import.py` with your Supabase Secret Key
 3. Run `python clean_and_import.py` to populate your database
+
+### Automated Gutenberg Import (Gutendex)
+You can now automatically fetch, parse, and import public domain books using our new ingestion pipeline.
+
+1. Make sure you have your `.env` configured with `SUPABASE_URL` and `SUPABASE_KEY`.
+2. (Optional but recommended) Run this SQL in your Supabase SQL Editor to support idempotency (avoiding duplicates):
+   ```sql
+   ALTER TABLE books ADD COLUMN IF NOT EXISTS source text DEFAULT 'gutendex';
+   ALTER TABLE books ADD COLUMN IF NOT EXISTS external_id text;
+   ```
+3. Use the CLI tool:
+   ```bash
+   # Search and import a specific book
+   python scripts/import_from_gutendex.py --query "Sherlock Holmes" --limit 1
+
+   # Dry run (test parsing without saving to database)
+   python scripts/import_from_gutendex.py --query "Alice in Wonderland" --limit 1 --dry-run
+
+   # Import 5 popular English books and skip already imported ones
+   python scripts/import_from_gutendex.py --language en --limit 5 --skip-existing
+   ```
+
+### 🎨 Managing Book Covers
+The ingestion pipeline includes an automated three-tier cover resolution strategy:
+1. **Gutendex Source**: Uses the original Gutenberg cover if available.
+2. **Open Library API**: Falls back to searching Open Library by Title & Author.
+3. **Auto-Generation**: Uses `Pillow` to dynamically draw a minimalist 2:3 book cover.
+
+All covers are automatically uploaded to your Supabase `covers` storage bucket, and the `books.cover_url` is updated.
+
+If you have old books in the database without covers, you can run the batch fixer:
+```bash
+# Optional: First add the cover_source column to track where images come from
+# ALTER TABLE books ADD COLUMN IF NOT EXISTS cover_source text;
+
+# Fix up to 10 books missing covers
+python scripts/fix_missing_covers.py --limit 10
+
+# Fix ALL books missing covers
+python scripts/fix_missing_covers.py --all
+```
