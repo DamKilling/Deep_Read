@@ -66,6 +66,16 @@ Local persistence implemented with `shared_preferences`. Tapping tokens queries 
 3. Make sure you have a `.env` file in the root directory with `SUPABASE_URL` and `SUPABASE_ANON_KEY` configured.
 4. Run the app using: `flutter run --dart-define-from-file=.env`
 
+### 🌐 Deploying to Vercel (Flutter Web)
+You can easily deploy the Flutter Web version of this app to Vercel. We have pre-configured the necessary build scripts and route rewrites.
+
+1. Go to [Vercel](https://vercel.com/) and create a new project from your GitHub repository.
+2. In the **Framework Preset**, select **Other**.
+3. Expand **Environment Variables** and add the following keys (copy values from your `.env`):
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+4. Click **Deploy**. Vercel will automatically use `scripts/vercel-build.sh` and output to `build/web`. The single-page app (SPA) routing is handled automatically via `vercel.json`.
+
 ### Import Books
 1. Add `.txt` files to the root directory
 2. Update the Python script `clean_and_import.py` with your Supabase Secret Key
