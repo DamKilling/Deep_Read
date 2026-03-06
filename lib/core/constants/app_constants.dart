@@ -2,8 +2,8 @@ class AppConstants {
   static const String appName = 'Deep Read';
   // Supabase Configuration
   // ⚠️ USER: Replace these with your actual Supabase URL and Anon Key ⚠️
-  static const String supabaseUrl = 'https://njxzcpgnxbcjgxinzafa.supabase.co';
-  static const String supabaseAnonKey = '***REMOVED_SECRET***';
+  static const String supabaseUrl = const String.fromEnvironment('SUPABASE_URL', defaultValue: '');
+  static const String supabaseAnonKey = const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: '');
 
   
   // Storage Keys

@@ -1,9 +1,14 @@
 import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import re
 from supabase import create_client, Client
 
-SUPABASE_URL = "https://njxzcpgnxbcjgxinzafa.supabase.co"
-SUPABASE_KEY = "***REMOVED_SECRET***"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def clean_text_block(text_block):
@@ -97,7 +102,7 @@ if __name__ == "__main__":
         txt_path="pg1513.txt",
         title="Romeo and Juliet",
         author="William Shakespeare",
-        cover_url="https://njxzcpgnxbcjgxinzafa.supabase.co/storage/v1/object/public/covers/pg1513.cover.medium.jpg",
+        cover_url=f"{SUPABASE_URL}/storage/v1/object/public/covers/pg1513.cover.medium.jpg",
         difficulty="C1"
     )
 
@@ -106,6 +111,6 @@ if __name__ == "__main__":
         txt_path="Wuthering.txt",
         title="Wuthering Heights",
         author="Emily Brontë",
-        cover_url="https://njxzcpgnxbcjgxinzafa.supabase.co/storage/v1/object/public/covers/pg768.cover.medium.jpg",
+        cover_url=f"{SUPABASE_URL}/storage/v1/object/public/covers/pg768.cover.medium.jpg",
         difficulty="C1"
     )

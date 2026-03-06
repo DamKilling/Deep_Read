@@ -1,4 +1,9 @@
 import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import re
 from supabase import create_client, Client
 
@@ -6,8 +11,8 @@ from supabase import create_client, Client
 # 1. 填写您的 Supabase 配置
 # 注意：为了有写入权限，推荐使用 Supabase Dashboard -> Project Settings -> API 里的 "service_role" secret key，而不是 anon key。
 # ==========================================
-SUPABASE_URL = "https://njxzcpgnxbcjgxinzafa.supabase.co"
-SUPABASE_KEY = "***REMOVED_SECRET***"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
