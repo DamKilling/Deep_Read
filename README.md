@@ -9,8 +9,11 @@ This project is developed and maintained by the LexiRead team.
 
 ## ✨ Features
 - **Minimalist UI/UX:** Clean, monochromatic aesthetics with squircle cards, high contrast, and elegant typography (`Inter` for system, `Lora` for reading).
-- **Interactive Reading:** Tap any word to get a dictionary lookup (Free Dictionary API + MyMemory API) with phonetics and examples.
+- **Progress Persistence:** Always pick up right where you left off. "Continue Reading" remembers your last opened book and specific chapter position securely.
+- **Customizable Reader Settings:** Adjust font size and line height on the fly for optimal reading comfort. Your preferences are saved automatically.
+- **Enhanced Interactive Reading:** Tap any word to get a dictionary lookup. Now includes 1-click **Copy to Clipboard** alongside adding to the Vocabulary Book.
 - **Full Sentence Translation:** Click the `G Translate` icon at the end of any sentence to translate the entire context block into Chinese.
+
 - **Smart Text Parsing:** Accurately detects sentence boundaries, ignoring common abbreviations (like `Mr.`, `Mrs.`, `Phd.`, `J. K. Rowling`).
 - **Vocabulary Book:** Save unknown words along with their original context sentences. Stored locally using `shared_preferences`.
 - **Chapter Navigation:** Pull up the Table of Contents drawer to jump between chapters, or use bottom navigation when finishing a chapter. Generates a beautiful "Completion Poster" to track your progress!

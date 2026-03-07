@@ -9,6 +9,9 @@ class InteractiveParagraph extends StatefulWidget {
   final Function(int sentenceIndex)? onTranslateSentence;
   final int? activeSentenceIndex;
   final bool isHeader;
+  final double fontSize;
+  final double lineHeight;
+
   const InteractiveParagraph({
     super.key,
     required this.tokens,
@@ -16,9 +19,12 @@ class InteractiveParagraph extends StatefulWidget {
     this.onTranslateSentence,
     this.activeSentenceIndex,
     this.isHeader = false,
+    this.fontSize = 20.0,
+    this.lineHeight = 1.8,
   });
   @override
   State<InteractiveParagraph> createState() => _InteractiveParagraphState();
+
 }
 
 class _InteractiveParagraphState extends State<InteractiveParagraph> {
@@ -80,17 +86,17 @@ class _InteractiveParagraphState extends State<InteractiveParagraph> {
           final isLastTokenOfSentence = index == widget.tokens.length - 1 || widget.tokens[index].sentenceIndex != widget.tokens[index + 1].sentenceIndex;
 
           // Adjust styles if it's a header
-          double fontSize = shouldRenderAsHeader ? 28 : 20;
+          double finalFontSize = shouldRenderAsHeader ? widget.fontSize * 1.4 : widget.fontSize;
           FontWeight fontWeight = shouldRenderAsHeader ? FontWeight.bold : (token.isWord ? FontWeight.w400 : FontWeight.normal);
-          double height = shouldRenderAsHeader ? 1.4 : 1.8;
+          double finalHeight = shouldRenderAsHeader ? 1.4 : widget.lineHeight;
 
           return TextSpan(
             children: [
               TextSpan(
                 text: token.text,
                 style: GoogleFonts.lora(
-                  fontSize: fontSize,
-                  height: height, 
+                  fontSize: finalFontSize,
+                  height: finalHeight, 
                   color: isHighlight
                       ? Theme.of(context).colorScheme.primary
                       : Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black87,

@@ -11,6 +11,9 @@ import '../../../library/providers/library_provider.dart';
 import '../../../vocabulary/providers/vocab_provider.dart';
 import '../widgets/completion_poster.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../providers/reader_settings_provider.dart';
+import '../../providers/reading_progress_provider.dart';
+import 'package:flutter/services.dart';
 
 class ReaderScreen extends ConsumerStatefulWidget {
   final String bookId;
@@ -181,29 +184,55 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         ),
                       ],
                       const SizedBox(height: 32),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          if (snapshot.data != null) {
-                            ref.read(vocabProvider.notifier).addWord(
-                                  token.text,
-                                  snapshot.data!.phonetic,
-                                  snapshot.data!.translation.isNotEmpty ? snapshot.data!.translation : snapshot.data!.definition,
-                                  "Paragraph: ${token.paragraphIndex}, Sentence: ${token.sentenceIndex}",
-                                );
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('"${token.text}" added to Vocab', style: GoogleFonts.inter())),
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.bookmark_add),
-                        label: const Text("加入生词本 (Add to Vocab)"),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                if (snapshot.data != null) {
+                                  ref.read(vocabProvider.notifier).addWord(
+                                        token.text,
+                                        snapshot.data!.phonetic,
+                                        snapshot.data!.translation.isNotEmpty ? snapshot.data!.translation : snapshot.data!.definition,
+                                        "Paragraph: ${token.paragraphIndex}, Sentence: ${token.sentenceIndex}",
+                                      );
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('"${token.text}" added to Vocab', style: GoogleFonts.inter())),
+                                  );
+                                }
+                              },
+                              icon: const Icon(Icons.bookmark_add),
+                              label: const Text("加入生词本"),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: token.text));
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('"${token.text}" copied to clipboard', style: GoogleFonts.inter())),
+                                );
+                              },
+                              icon: const Icon(Icons.copy),
+                              label: const Text("复制 (Copy)"),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -388,10 +417,69 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       },
     );
   }
+  void _showSettingsPanel(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final settings = ref.watch(readerSettingsProvider);
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Settings', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Font Size'),
+                      Expanded(
+                        child: Slider(
+                          value: settings.fontSize,
+                          min: 14.0,
+                          max: 32.0,
+                          onChanged: (val) => ref.read(readerSettingsProvider.notifier).updateFontSize(val),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Line Height'),
+                      Expanded(
+                        child: Slider(
+                          value: settings.lineHeight,
+                          min: 1.2,
+                          max: 2.5,
+                          onChanged: (val) => ref.read(readerSettingsProvider.notifier).updateLineHeight(val),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SwitchListTile(
+                    title: const Text('Show Translation'),
+                    value: settings.showTranslation,
+                    onChanged: (val) => ref.read(readerSettingsProvider.notifier).toggleTranslation(val),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final chapterAsync = ref.watch(chapterProvider(ChapterRequest(bookId: widget.bookId, chapterNumber: widget.chapterNumber)));
+    final readerSettings = ref.watch(readerSettingsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -410,6 +498,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 );
               },
             ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => _showSettingsPanel(context),
+            tooltip: 'Settings',
+          ),
           IconButton(
             icon: const Icon(Icons.menu_book),
             onPressed: () => _showTableOfContents(context),
@@ -430,11 +523,13 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               _initAudioAndParse(chapter.content, chapter.audioUrl, chapter.audioTimestamps);
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (mounted) {
+                  ref.read(readingProgressProvider.notifier).saveProgress(widget.bookId, widget.chapterNumber);
                   setState(() {
                     _isInitialized = true;
                   });
                 }
               });
+
             }
             return ValueListenableBuilder<int?>(
               valueListenable: _audioController.activeSentenceIndex,
@@ -553,7 +648,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                       onTranslateSentence: _onTranslateSentenceTapped,
                       activeSentenceIndex: activeIndex,
                       isHeader: index == 0,
+                      fontSize: readerSettings.fontSize,
+                      lineHeight: readerSettings.lineHeight,
                     );
+
                   },
                 );
               },

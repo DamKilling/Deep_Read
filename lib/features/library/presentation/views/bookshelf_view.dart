@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/library_provider.dart';
 import '../widgets/book_card.dart';
+import '../../domain/models/book.dart';
 
 class BookshelfView extends ConsumerWidget {
   const BookshelfView({super.key});
@@ -26,12 +27,14 @@ class BookshelfView extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
           currentBook.when(
-            data: (book) {
-              if (book == null) return const SizedBox.shrink();
+            data: (data) {
+              if (data == null) return const SizedBox.shrink();
+              final book = data['book'] as Book;
+              final chapter = data['chapter'] as int;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: GestureDetector(
-                  onTap: () => context.push('/reader/${book.id}/1'),
+                  onTap: () => context.push('/reader/${book.id}/$chapter'),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardTheme.color,
@@ -83,7 +86,7 @@ class BookshelfView extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
-                                  'Level ${book.difficultyLevel} • Chapter 1',
+                                  'Level ${book.difficultyLevel} • Chapter $chapter',
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 const SizedBox(height: 16),
