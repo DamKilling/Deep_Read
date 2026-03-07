@@ -68,7 +68,33 @@ Local persistence implemented with `shared_preferences`. Tapping tokens queries 
 1. Clone the repository
 2. Run `flutter pub get` to install dependencies
 3. Make sure you have a `.env` file in the root directory with `SUPABASE_URL` and `SUPABASE_ANON_KEY` configured.
-4. Run the app using: `flutter run --dart-define-from-file=.env`
+4. Run the app using `.env` file for Supabase and `--dart-define` for the local backend:
+   ```bash
+   # Default run (Auto-detects localhost: 10.0.2.2 for Android, 127.0.0.1 for Web/Desktop)
+   flutter run --dart-define-from-file=.env
+
+   # Explicitly set the backend URL (e.g., for local network device or production)
+   flutter run --dart-define-from-file=.env --dart-define=BACKEND_URL=http://192.168.1.100:8000
+   ```
+
+### 🌍 Backend Environment Configuration
+LexiRead connects to a local/remote Python backend for Web Search & Import features. The app dynamically determines the backend URL.
+
+**1. Default Behavior (No `--dart-define` provided):**
+- **Android Emulator:** Automatically uses `http://10.0.2.2:8000` (points to the host machine's localhost).
+- **Web / iOS / Desktop:** Automatically uses `http://127.0.0.1:8000`.
+
+**2. Custom Local Network (Testing on physical devices):**
+When testing on a real phone, `127.0.0.1` won't work. Pass your computer's local IP:
+```bash
+flutter run --dart-define-from-file=.env --dart-define=BACKEND_URL=http://<YOUR_LOCAL_IP>:8000
+```
+
+**3. Production Environment:**
+For production releases, inject your live backend URL during the build step:
+```bash
+flutter build apk --dart-define-from-file=.env --dart-define=BACKEND_URL=https://your-production-api.com
+```
 
 ### 🌐 Deploying to Vercel (Flutter Web)
 You can easily deploy the Flutter Web version of this app to Vercel. We have pre-configured the necessary build scripts and route rewrites.

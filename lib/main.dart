@@ -28,6 +28,12 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
+  // Log configurations on startup for easier debugging
+  debugPrint('--- LexiRead Configuration ---');
+  debugPrint('Backend API URL: ${AppConstants.backendApiUrl}');
+  debugPrint('Supabase URL configured: ${AppConstants.supabaseUrl.isNotEmpty}');
+  debugPrint('------------------------------');
+
   runApp(
     ProviderScope(
       overrides: [

@@ -15,10 +15,19 @@ class AppConstants {
   
   // Local Backend API
   static String get backendApiUrl {
+    // 1. Check if the user explicitly provided a backend URL via --dart-define
+    const definedUrl = String.fromEnvironment('BACKEND_URL', defaultValue: '');
+    if (definedUrl.isNotEmpty) {
+      return definedUrl;
+    }
+
+    // 2. Default fallback based on platform
     if (kIsWeb) return 'http://127.0.0.1:8000';
     try {
       if (Platform.isAndroid) return 'http://10.0.2.2:8000';
     } catch (_) {}
+    
+    // Default for iOS, Windows, macOS, Linux
     return 'http://127.0.0.1:8000';
   }
   
