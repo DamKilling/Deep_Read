@@ -11,18 +11,21 @@ class InteractiveParagraph extends StatefulWidget {
   final bool isHeader;
   final double fontSize;
   final double lineHeight;
+  final bool showTranslation;
 
   const InteractiveParagraph({
     super.key,
     required this.tokens,
+
     required this.onWordTap,
     this.onTranslateSentence,
     this.activeSentenceIndex,
     this.isHeader = false,
     this.fontSize = 20.0,
     this.lineHeight = 1.8,
+    this.showTranslation = true,
   });
-  @override
+
   State<InteractiveParagraph> createState() => _InteractiveParagraphState();
 
 }
@@ -107,7 +110,7 @@ class _InteractiveParagraphState extends State<InteractiveParagraph> {
                 ),
                 recognizer: _recognizers[index],
               ),
-              if (isLastTokenOfSentence && widget.onTranslateSentence != null && !shouldRenderAsHeader)
+              if (widget.showTranslation && isLastTokenOfSentence && widget.onTranslateSentence != null && !shouldRenderAsHeader)
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: GestureDetector(

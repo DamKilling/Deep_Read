@@ -650,6 +650,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                       isHeader: index == 0,
                       fontSize: readerSettings.fontSize,
                       lineHeight: readerSettings.lineHeight,
+                      showTranslation: readerSettings.showTranslation,
                     );
 
                   },

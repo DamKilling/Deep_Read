@@ -10,5 +10,5 @@ def run_cmd(cmd):
 
 os.chdir(r"D:\deep_read")
 run_cmd("git add .")
-run_cmd('git commit -m "feat: enhance reader experience with settings, progress tracking, and dictionary UI"')
+run_cmd('git commit -m "fix: make showTranslation switch hide/show sentence translation icons"')
 run_cmd("git push")
