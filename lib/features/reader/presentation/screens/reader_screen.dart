@@ -14,7 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/reader_settings_provider.dart';
 import '../../providers/reading_progress_provider.dart';
 import 'package:flutter/services.dart';
-
+import 'package:lexiread/l10n/app_localizations.dart';
 class ReaderScreen extends ConsumerStatefulWidget {
   final String bookId;
   final int chapterNumber;
@@ -451,7 +451,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Font Size'),
+                      Text(AppLocalizations.of(context)!.readerFontSize),
                       Expanded(
                         child: Slider(
                           value: settings.fontSize,
@@ -465,7 +465,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Line Height'),
+                      Text(AppLocalizations.of(context)!.readerLineHeight),
                       Expanded(
                         child: Slider(
                           value: settings.lineHeight,
@@ -477,7 +477,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     ],
                   ),
                   SwitchListTile(
-                    title: const Text('Show Translation'),
+                    title: Text(AppLocalizations.of(context)!.readerShowTranslation),
                     value: settings.showTranslation,
                     onChanged: (val) => ref.read(readerSettingsProvider.notifier).toggleTranslation(val),
                     contentPadding: EdgeInsets.zero,
@@ -516,12 +516,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () => _showSettingsPanel(context),
-            tooltip: 'Settings',
+            tooltip: AppLocalizations.of(context)!.readerSettings,
           ),
           IconButton(
             icon: const Icon(Icons.menu_book),
             onPressed: () => _showTableOfContents(context),
-            tooltip: 'Table of Contents',
+            tooltip: AppLocalizations.of(context)!.readerTableOfContents,
           ),
           const SizedBox(width: 8),
         ],

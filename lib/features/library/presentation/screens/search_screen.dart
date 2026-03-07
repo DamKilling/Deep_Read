@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../providers/library_provider.dart';
 
+import 'package:lexiread/l10n/app_localizations.dart';
+
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
 
@@ -120,8 +122,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         title: TextField(
           controller: _searchController,
           autofocus: true,
-          decoration: const InputDecoration(
-            hintText: 'Search library or web...',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.searchHint,
             border: InputBorder.none,
           ),
           onChanged: _onSearchChanged,
@@ -148,7 +150,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Local Library',
+                    AppLocalizations.of(context)!.searchLocalTitle,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 16),
@@ -194,13 +196,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'External Sources',
+                        AppLocalizations.of(context)!.searchWebTitle,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       TextButton.icon(
                         onPressed: _searchExternal,
                         icon: const Icon(Icons.travel_explore),
-                        label: const Text('Search Web'),
+                        label: Text(AppLocalizations.of(context)!.searchWebTitle),
                       ),
                     ],
                   ),

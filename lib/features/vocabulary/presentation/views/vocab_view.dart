@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/vocab_provider.dart';
+import 'package:lexiread/l10n/app_localizations.dart';
 
 class VocabView extends ConsumerWidget {
   const VocabView({super.key});
@@ -13,7 +14,7 @@ class VocabView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text('My Vocab', style: GoogleFonts.inter(fontWeight: FontWeight.w700)),
+        title: Text(AppLocalizations.of(context)!.vocabMyVocab, style: GoogleFonts.inter(fontWeight: FontWeight.w700)),
         elevation: 0,
         centerTitle: false,
       ),
@@ -25,18 +26,14 @@ class VocabView extends ConsumerWidget {
                   Icon(Icons.menu_book, size: 64, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2)),
                   const SizedBox(height: 16),
                   Text(
-                    'Your vocabulary is empty',
+                    AppLocalizations.of(context)!.vocabEmpty,
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                         ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Tap words while reading to add them here',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-                        ),
-                  ),
+
                 ],
               ),
             )

@@ -4,6 +4,7 @@ import '../views/bookshelf_view.dart';
 import '../views/profile_view.dart';
 import 'package:go_router/go_router.dart';
 import '../../../vocabulary/presentation/views/vocab_view.dart';
+import 'package:lexiread/l10n/app_localizations.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});
@@ -23,10 +24,12 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: _currentIndex == 0
           ? AppBar(
-              title: const Text('LexiRead'),
+              title: Text(l10n.appName),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.search),
@@ -43,21 +46,21 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             _currentIndex = index;
           });
         },
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.library_books_outlined),
-            selectedIcon: Icon(Icons.library_books),
-            label: 'Library',
+            icon: const Icon(Icons.library_books_outlined),
+            selectedIcon: const Icon(Icons.library_books),
+            label: l10n.homeLibrary,
           ),
           NavigationDestination(
-            icon: Icon(Icons.bookmark_outline),
-            selectedIcon: Icon(Icons.bookmark),
-            label: 'Vocab',
+            icon: const Icon(Icons.bookmark_outline),
+            selectedIcon: const Icon(Icons.bookmark),
+            label: l10n.homeVocab,
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: l10n.homeProfile,
           ),
         ],
       ),

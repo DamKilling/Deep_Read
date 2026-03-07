@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
-
+import 'package:lexiread/l10n/app_localizations.dart';
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
@@ -50,7 +50,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 const Icon(Icons.menu_book_rounded, size: 80, color: Colors.green),
                 const SizedBox(height: 24),
                 Text(
-                  _isLogin ? 'Welcome Back' : 'Create Account',
+                  AppLocalizations.of(context)!.loginTitle,
                   style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
@@ -63,20 +63,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 const SizedBox(height: 48),
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.email),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.loginEmailHint,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.email),
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
                 TextField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.lock),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.loginPasswordHint,
+                    border: const OutlineInputBorder(),
                   ),
                   obscureText: true,
                 ),
@@ -103,7 +102,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           width: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : Text(_isLogin ? 'Login' : 'Sign Up', style: const TextStyle(fontSize: 16)),
+                      : Text(_isLogin ? AppLocalizations.of(context)!.loginButton : AppLocalizations.of(context)!.registerButton, style: const TextStyle(fontSize: 16)),
                 ),
                 const SizedBox(height: 16),
                 TextButton(

@@ -7,6 +7,11 @@ import 'core/constants/app_constants.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
+import 'core/providers/locale_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,9 +26,14 @@ void main() async {
     debugPrint('Supabase init failed (using mock config?): $e');
   }
 
+  final prefs = await SharedPreferences.getInstance();
+
   runApp(
-    const ProviderScope(
-      child: DeepReadApp(),
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const DeepReadApp(),
     ),
   );
 }
@@ -34,6 +44,7 @@ class DeepReadApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(
       title: 'LexiRead',
@@ -42,6 +53,14 @@ class DeepReadApp extends ConsumerWidget {
       themeMode: ThemeMode.system, // Auto switch based on OS
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      locale: locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
