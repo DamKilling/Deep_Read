@@ -7,6 +7,7 @@ class Book {
   final int totalChapters;
   final String description;
   final String? categoryRaw;
+  final String? source;
 
   const Book({
     required this.id,
@@ -17,6 +18,7 @@ class Book {
     required this.totalChapters,
     required this.description,
     this.categoryRaw,
+    this.source,
   });
 
   String get displayCategory {

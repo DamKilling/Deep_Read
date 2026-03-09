@@ -1,15 +1,12 @@
 {
   "@@locale": "en",
-  
   "appName": "LexiRead",
   "homeLibrary": "Library",
   "homeVocab": "Vocab",
   "homeProfile": "Profile",
-
   "searchWebTitle": "Search Web",
   "searchLocalTitle": "Search Library",
   "searchHint": "Title, Author, or keyword...",
-  
   "settingsTitle": "Settings",
   "settingsLanguage": "Language",
   "settingsLanguageSystem": "Follow System",
@@ -18,20 +15,57 @@
   "settingsTheme": "Theme",
   "settingsAbout": "About",
   "settingsLogout": "Logout",
-  
   "loginTitle": "Welcome to LexiRead",
   "loginEmailHint": "Email",
   "loginPasswordHint": "Password",
   "loginButton": "Sign In",
   "registerButton": "Create Account",
-
   "readerSettings": "Reader Settings",
   "readerFontSize": "Font Size",
   "readerLineHeight": "Line Height",
   "readerShowTranslation": "Show Translation",
   "readerTableOfContents": "Table of Contents",
-  
   "vocabMyVocab": "My Vocabulary",
   "vocabSearch": "Search words...",
-  "vocabEmpty": "No vocabulary yet. Start reading and tap words to add them!"
+  "vocabEmpty": "No vocabulary yet. Start reading and tap words to add them!",
+  "filterAll": "All",
+  "filterClassic": "Classic",
+  "filterHorror": "Horror",
+  "filterFantasy": "Fantasy",
+  "filterMystery": "Mystery",
+  "filterRomance": "Romance",
+  "filterAdventure": "Adventure",
+  "filterSciFi": "Sci-Fi",
+  "filterOther": "Other",
+  "filterDifficulty": "Difficulty",
+  "filterReadingStatus": "Reading Status",
+  "statusNotStarted": "Not Started",
+  "statusReading": "Reading",
+  "statusFinished": "Finished",
+  "filterReset": "Reset",
+  "filterClear": "Clear Filters",
+  "filterEmpty": "No books found matching your filters.",
+  "searchBooksHint": "Search your books...",
+  "filterTitle": "Filters",
+  "continueReading": "Continue Reading",
+  "bookDetailAuthor": "Author",
+  "bookDetailCategory": "Category",
+  "bookDetailDifficulty": "Difficulty",
+  "bookDetailChapters": "Chapters",
+  "bookDetailDescription": "Description",
+  "bookDetailStartReading": "Start Reading",
+  "bookDetailContinueReading": "Continue Reading",
+  "bookDetailReadAgain": "Read Again",
+  "bookDetailChapterProgress": "Chapter {current} of {total}",
+  "bookDetailSource": "Source",
+  "@bookDetailChapterProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

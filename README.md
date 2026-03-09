@@ -19,8 +19,9 @@ This project is developed and maintained by the LexiRead team.
 - **Chapter Navigation:** Pull up the Table of Contents drawer to jump between chapters, or use bottom navigation when finishing a chapter. Generates a beautiful "Completion Poster" to track your progress!
 - **Multi-language Support:** Full i18n support with 'Follow System', English, and Simplified Chinese, persisted locally for seamless switching.
 - **Unified Library & Web Search:** Search your local library instantly, or switch to the global Gutenberg public domain repository seamlessly. Features an 800ms debounce for smart auto-fallback querying and environment-aware backend routing.
+- **Library Filtering & Bookshelf View:** Instantly sort and filter your book library by Category (Sci-Fi, Fantasy, Romance, etc.), Difficulty (A1 to C2), and Reading Status (Not Started, Reading, Finished). Search is fully integrated with filters.
+- **Smart Book Detail Screen:** Tapping a book opens a rich detail view with metadata and a context-aware reading button ("Start Reading", "Continue Reading: Chapter X of Y", or "Read Again") tied strictly to your progress.
 - **1-Click Cloud Import:** Found a book on Gutendex? Click "Import" in the app. A Python FastAPI backend automatically fetches the text, cleans the formatting, parses the chapters, resolves/generates a book cover, and syncs everything directly into your Supabase database in seconds.
-
 ---
 ## 🛠️ Technical Documentation & Architecture
 

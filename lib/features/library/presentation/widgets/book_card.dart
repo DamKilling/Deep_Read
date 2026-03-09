@@ -17,7 +17,7 @@ class BookCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          context.push('/reader/${book.id}/1');
+          context.push('/book/${book.id}');
         },
         borderRadius: BorderRadius.circular(20),
         child: Padding(

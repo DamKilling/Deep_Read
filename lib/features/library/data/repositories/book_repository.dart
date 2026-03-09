@@ -43,6 +43,7 @@ class BookRepository {
         totalChapters: json['total_chapters'] as int? ?? 0,
         description: json['description'] as String? ?? '',
         categoryRaw: json.containsKey('category') ? json['category'] as String? : null,
+        source: json.containsKey('source') ? json['source'] as String? : null,
       );
     }).toList();
   }

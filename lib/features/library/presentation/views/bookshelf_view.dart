@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../providers/library_provider.dart';
 import '../widgets/book_card.dart';
 import '../../domain/models/book.dart';
+import 'package:lexiread/l10n/app_localizations.dart';
 
 class BookshelfView extends ConsumerWidget {
   const BookshelfView({super.key});
@@ -16,6 +17,8 @@ class BookshelfView extends ConsumerWidget {
     final filterNotifier = ref.read(libraryFilterProvider.notifier);
 
     final categories = ['All', 'Classic', 'Horror', 'Mystery', 'Fantasy', 'Adventure', 'Romance', 'Sci-Fi', 'Other'];
+    final l10n = AppLocalizations.of(context)!;
+
     final difficulties = ['All', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'N/A'];
 
 
@@ -27,7 +30,7 @@ class BookshelfView extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
-              'Continue Reading',
+              l10n.continueReading,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
@@ -103,7 +106,7 @@ class BookshelfView extends ConsumerWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
-                                    'Resume',
+                                    l10n.continueReading,
                                     style: TextStyle(
                                       color: Theme.of(context).colorScheme.onPrimary,
                                       fontWeight: FontWeight.w600,
@@ -131,7 +134,7 @@ class BookshelfView extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Library',
+                  l10n.homeLibrary,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 IconButton(
@@ -139,7 +142,7 @@ class BookshelfView extends ConsumerWidget {
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
-                      builder: (context) => _buildFilterSheet(context, filterState, filterNotifier, difficulties),
+                      builder: (context) => _buildFilterSheet(context, filterState, filterNotifier, difficulties, l10n),
                     );
                   },
                 ),
@@ -151,7 +154,7 @@ class BookshelfView extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Search your books...',
+                hintText: l10n.searchBooksHint,
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -177,7 +180,7 @@ class BookshelfView extends ConsumerWidget {
                 final category = categories[index];
                 final isSelected = filterState.category == category;
                 return ChoiceChip(
-                  label: Text(category),
+                  label: Text(_translateCategory(category, l10n)),
                   selected: isSelected,
                   onSelected: (selected) {
                     if (selected) {
@@ -200,7 +203,7 @@ class BookshelfView extends ConsumerWidget {
                         Icon(Icons.menu_book, size: 48, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)),
                         const SizedBox(height: 16),
                         Text(
-                          'No books found matching your filters.',
+                          l10n.filterEmpty,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
@@ -208,7 +211,7 @@ class BookshelfView extends ConsumerWidget {
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: () => filterNotifier.reset(),
-                          child: const Text('Clear Filters'),
+                          child: Text(l10n.filterClear),
                         ),
                       ],
                     ),
@@ -235,7 +238,22 @@ class BookshelfView extends ConsumerWidget {
     );
   }
 
-  Widget _buildFilterSheet(BuildContext context, LibraryFilterState filterState, LibraryFilterNotifier filterNotifier, List<String> difficulties) {
+  String _translateCategory(String category, AppLocalizations l10n) {
+    switch (category) {
+      case 'All': return l10n.filterAll;
+      case 'Classic': return l10n.filterClassic;
+      case 'Horror': return l10n.filterHorror;
+      case 'Fantasy': return l10n.filterFantasy;
+      case 'Mystery': return l10n.filterMystery;
+      case 'Romance': return l10n.filterRomance;
+      case 'Adventure': return l10n.filterAdventure;
+      case 'Sci-Fi': return l10n.filterSciFi;
+      case 'Other': return l10n.filterOther;
+      default: return category;
+    }
+  }
+
+  Widget _buildFilterSheet(BuildContext context, LibraryFilterState filterState, LibraryFilterNotifier filterNotifier, List<String> difficulties, AppLocalizations l10n) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -246,18 +264,18 @@ class BookshelfView extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Filters', style: Theme.of(context).textTheme.titleLarge),
+                Text(l10n.filterTitle, style: Theme.of(context).textTheme.titleLarge),
                 TextButton(
                   onPressed: () {
                     filterNotifier.reset();
                     Navigator.pop(context);
                   },
-                  child: const Text('Reset'),
+                  child: Text(l10n.filterReset),
                 ),
               ],
             ),
             const SizedBox(height: 24),
-            Text('Difficulty', style: Theme.of(context).textTheme.titleMedium),
+            Text(l10n.filterDifficulty, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             Wrap(
               spacing: 8,
@@ -265,7 +283,7 @@ class BookshelfView extends ConsumerWidget {
               children: difficulties.map((diff) {
                 final isSelected = filterState.difficulty == diff;
                 return ChoiceChip(
-                  label: Text(diff),
+                  label: Text(diff == 'All' ? l10n.filterAll : diff),
                   selected: isSelected,
                   onSelected: (selected) {
                     if (selected) filterNotifier.setDifficulty(diff);
@@ -274,16 +292,16 @@ class BookshelfView extends ConsumerWidget {
               }).toList(),
             ),
             const SizedBox(height: 24),
-            Text('Reading Status', style: Theme.of(context).textTheme.titleMedium),
+            Text(l10n.filterReadingStatus, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                _buildStatusChip('All', ReadingStatus.all, filterState, filterNotifier),
-                _buildStatusChip('Not Started', ReadingStatus.notStarted, filterState, filterNotifier),
-                _buildStatusChip('Reading', ReadingStatus.reading, filterState, filterNotifier),
-                _buildStatusChip('Finished', ReadingStatus.finished, filterState, filterNotifier),
+                _buildStatusChip(l10n.filterAll, ReadingStatus.all, filterState, filterNotifier),
+                _buildStatusChip(l10n.statusNotStarted, ReadingStatus.notStarted, filterState, filterNotifier),
+                _buildStatusChip(l10n.statusReading, ReadingStatus.reading, filterState, filterNotifier),
+                _buildStatusChip(l10n.statusFinished, ReadingStatus.finished, filterState, filterNotifier),
               ],
             ),
             const SizedBox(height: 24),

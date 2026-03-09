@@ -91,4 +91,96 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get vocabEmpty => '暂无生词。开始阅读并点击单词来添加吧！';
+
+  @override
+  String get filterAll => '全部';
+
+  @override
+  String get filterClassic => '名著';
+
+  @override
+  String get filterHorror => '恐怖';
+
+  @override
+  String get filterFantasy => '奇幻';
+
+  @override
+  String get filterMystery => '悬疑';
+
+  @override
+  String get filterRomance => '言情';
+
+  @override
+  String get filterAdventure => '冒险';
+
+  @override
+  String get filterSciFi => '科幻';
+
+  @override
+  String get filterOther => '其他';
+
+  @override
+  String get filterDifficulty => '难度';
+
+  @override
+  String get filterReadingStatus => '阅读状态';
+
+  @override
+  String get statusNotStarted => '未开始';
+
+  @override
+  String get statusReading => '阅读中';
+
+  @override
+  String get statusFinished => '已读完';
+
+  @override
+  String get filterReset => '重置';
+
+  @override
+  String get filterClear => '清除筛选';
+
+  @override
+  String get filterEmpty => '没有找到符合条件的书籍。';
+
+  @override
+  String get searchBooksHint => '搜索你的书籍...';
+
+  @override
+  String get filterTitle => '筛选';
+
+  @override
+  String get continueReading => '继续阅读';
+
+  @override
+  String get bookDetailAuthor => '作者';
+
+  @override
+  String get bookDetailCategory => '分类';
+
+  @override
+  String get bookDetailDifficulty => '难度';
+
+  @override
+  String get bookDetailChapters => '总章节';
+
+  @override
+  String get bookDetailDescription => '简介';
+
+  @override
+  String get bookDetailStartReading => '开始阅读';
+
+  @override
+  String get bookDetailContinueReading => '继续阅读';
+
+  @override
+  String get bookDetailReadAgain => '再次阅读';
+
+  @override
+  String bookDetailChapterProgress(int current, int total) {
+    return '第 $current / $total 章';
+  }
+
+  @override
+  String get bookDetailSource => '来源';
 }

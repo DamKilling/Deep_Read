@@ -118,9 +118,9 @@ final filteredBooksProvider = FutureProvider<List<Book>>((ref) async {
     // Reading Status Filter
     if (filter.status != ReadingStatus.all) {
       final currentChapter = progressMap[book.id];
-      final isNotStarted = currentChapter == null || currentChapter <= 1;
-      final isFinished = currentChapter != null && currentChapter >= book.totalChapters && book.totalChapters > 1;
-      final isReading = !isNotStarted && !isFinished;
+      final isNotStarted = currentChapter == null;
+      final isFinished = currentChapter != null && currentChapter >= book.totalChapters && book.totalChapters > 0;
+      final isReading = currentChapter != null && !isFinished;
 
       if (filter.status == ReadingStatus.notStarted && !isNotStarted) return false;
       if (filter.status == ReadingStatus.reading && !isReading) return false;

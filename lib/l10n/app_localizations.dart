@@ -265,6 +265,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No vocabulary yet. Start reading and tap words to add them!'**
   String get vocabEmpty;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @filterClassic.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get filterClassic;
+
+  /// No description provided for @filterHorror.
+  ///
+  /// In en, this message translates to:
+  /// **'Horror'**
+  String get filterHorror;
+
+  /// No description provided for @filterFantasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Fantasy'**
+  String get filterFantasy;
+
+  /// No description provided for @filterMystery.
+  ///
+  /// In en, this message translates to:
+  /// **'Mystery'**
+  String get filterMystery;
+
+  /// No description provided for @filterRomance.
+  ///
+  /// In en, this message translates to:
+  /// **'Romance'**
+  String get filterRomance;
+
+  /// No description provided for @filterAdventure.
+  ///
+  /// In en, this message translates to:
+  /// **'Adventure'**
+  String get filterAdventure;
+
+  /// No description provided for @filterSciFi.
+  ///
+  /// In en, this message translates to:
+  /// **'Sci-Fi'**
+  String get filterSciFi;
+
+  /// No description provided for @filterOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get filterOther;
+
+  /// No description provided for @filterDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get filterDifficulty;
+
+  /// No description provided for @filterReadingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Status'**
+  String get filterReadingStatus;
+
+  /// No description provided for @statusNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Started'**
+  String get statusNotStarted;
+
+  /// No description provided for @statusReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get statusReading;
+
+  /// No description provided for @statusFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get statusFinished;
+
+  /// No description provided for @filterReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get filterReset;
+
+  /// No description provided for @filterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get filterClear;
+
+  /// No description provided for @filterEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No books found matching your filters.'**
+  String get filterEmpty;
+
+  /// No description provided for @searchBooksHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search your books...'**
+  String get searchBooksHint;
+
+  /// No description provided for @filterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filterTitle;
+
+  /// No description provided for @continueReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Reading'**
+  String get continueReading;
+
+  /// No description provided for @bookDetailAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get bookDetailAuthor;
+
+  /// No description provided for @bookDetailCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get bookDetailCategory;
+
+  /// No description provided for @bookDetailDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get bookDetailDifficulty;
+
+  /// No description provided for @bookDetailChapters.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapters'**
+  String get bookDetailChapters;
+
+  /// No description provided for @bookDetailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get bookDetailDescription;
+
+  /// No description provided for @bookDetailStartReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Reading'**
+  String get bookDetailStartReading;
+
+  /// No description provided for @bookDetailContinueReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Reading'**
+  String get bookDetailContinueReading;
+
+  /// No description provided for @bookDetailReadAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Again'**
+  String get bookDetailReadAgain;
+
+  /// No description provided for @bookDetailChapterProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter {current} of {total}'**
+  String bookDetailChapterProgress(int current, int total);
+
+  /// No description provided for @bookDetailSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get bookDetailSource;
 }
 
 class _AppLocalizationsDelegate
